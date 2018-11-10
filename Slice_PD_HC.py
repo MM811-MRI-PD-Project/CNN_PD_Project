@@ -24,11 +24,15 @@ def split_label(csv_file):
     lable_file.close()
 
 def labeled_img (labeled_list, ori_dir, new_dir):
-    os.mkdir(new_dir)
     for num in labeled_list:
         for item in os.listdir(ori_dir):
             if num in item:
-                shutil.copy(os.path.join(ori_dir, item),new_dir)
+                
+                input_f = os.path.join(ori_dir, item)
+                ex_command = "med2image -i %s -d ./%s -o mwp1%s.jpg -s m" %(input_f,new_dir,num)
+                os.system(ex_command)
+                
+                #shutil.copy(os.path.join(ori_dir, item),new_dir)
                 # use this line if you don't want to keep the original data in the original GM/WM folder
                 # shutil.copy(os.path.join(ori_dir, item),new_dir) 
 
@@ -39,14 +43,18 @@ GM_path = "/Users/DXX/Desktop/UACLASS/MM811/project/Datas/GM"
 WM_PATH = "/Users/DXX/Desktop/UACLASS/MM811/project/Datas/WM"
 
 # Change target directory
-PD_folder = '/Users/DXX/Desktop/UACLASS/MM811/project/Datas/wmPD' 
-HC_folder = '/Users/DXX/Desktop/UACLASS/MM811/project/Datas/wmHC' 
-
+gm_PD_folder = 'gmPD_slice' 
+gm_HC_folder = 'gmHC_slice' 
+wm_PD_folder = 'wmPD_slice' 
+wm_HC_folder = 'wmHC_slice'
 
 csv_file = 'PPMI.csv'
 PD=[]
 HC=[]
 split_label(csv_file)
-labeled_img(HC,WM_PATH,HC_folder)
-labeled_img(PD,WM_PATH,PD_folder)
+
+labeled_img(HC,WM_PATH,wm_HC_folder)
+labeled_img(PD,WM_PATH,wm_PD_folder)
+labeled_img(HC,GM_PATH,gm_HC_folder)
+labeled_img(PD,GM_PATH,gm_PD_folder)
 
