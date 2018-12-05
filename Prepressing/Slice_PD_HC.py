@@ -5,6 +5,7 @@ import sys
 import csv
 import shutil
 
+### Read labels from csv files
 def split_label(csv_file):
     lable_file = open(csv_file,'r')
     reader = csv.reader(lable_file)
@@ -23,6 +24,7 @@ def split_label(csv_file):
     
     lable_file.close()
 
+### Seg specific slice for each subject from the original dataset
 def labeled_img (labeled_list, ori_dir, new_dir):
     for num in labeled_list:
         for item in os.listdir(ori_dir):
