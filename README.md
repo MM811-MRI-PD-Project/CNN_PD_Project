@@ -19,6 +19,12 @@
             (Change the desire path inside Train_test file)
             
 ### CNN model
-    1. 2D CNN
+    1. 2D CNN  (2dCNN folder)
+       To train the 2D model, change the folder path in 2d_cnn_bn.py
+       and run ## $python3 2d_cnn_bn.py ## 
+       all accuracy and loss results are saved in results.csv  
+       plot_result.py plot the graph of accuracy and loss results 
+    
+    2. 3D CNN (3d_cnn folder)
         
     
