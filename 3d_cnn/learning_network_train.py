@@ -44,7 +44,7 @@ def bias_variable(shape):
 
 
 
-# Convolution layer: output size = input size
+# Convolution layer: 
 def conv3d(x, W):
     return tf.nn.conv3d(x, W, strides=[1, 1, 1, 1, 1], padding='SAME')
 # Pooling layer for the first 3 repeats:
