@@ -19,6 +19,9 @@ tf.app.flags.DEFINE_integer('depth', 20,
 FLAGS = tf.app.flags.FLAGS
 batch_index = 0
 image_size = 128
+
+# Please change the train & test path:
+
 train_path = "/home/luchen/mm811/DATASET/GM/train/"
 #train_path = "/Users/luchenliu/Documents/UAlberta_CS_MM/deep_learning/project/mm811/gm_labeldatas/train/"
 #test_path = "/Users/luchenliu/Documents/UAlberta_CS_MM/deep_learning/project/mm811/gm_labeldatas/test/"
