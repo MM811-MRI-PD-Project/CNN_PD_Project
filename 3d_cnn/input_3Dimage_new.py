@@ -15,14 +15,13 @@ tf.app.flags.DEFINE_integer('height', 128,
 tf.app.flags.DEFINE_integer('depth', 20,
                             """depth of image""")
 
-# user selection
 
-# tf.app.flags.DEFINE_string('train_path', '/Users/DXX/Desktop/UACLASS/MM811/project/Datas/NII_TEST_TRAIN/train/',
-#                            """Directory""")
 FLAGS = tf.app.flags.FLAGS
-
 batch_index = 0
 image_size = 128
+
+# Please change the train & test folder path:
+
 train_path = "/home/luchen/mm811/DATASET/GM/train/"
 #train_path = "/Users/luchenliu/Documents/UAlberta_CS_MM/deep_learning/project/mm811/gm_labeldatas/train/"
 #test_path = "/Users/luchenliu/Documents/UAlberta_CS_MM/deep_learning/project/mm811/gm_labeldatas/test/"
@@ -161,13 +160,13 @@ class DataSet(object):
     return self._images[start:end], self._labels[start:end], self._ids[start:end], self._cls[start:end]
 
 
-def get_train_data_MRI(sess, batch_size, validation_size=0): #(train_path, image_size, classes, validation_size=0):
+def get_train_data_MRI(sess, batch_size, validation_size=0): 
   class DataSets(object):
     pass
   data_sets = DataSets()
 
   images, labels, ids, cls = load_train(sess,batch_size)
-  images, labels, ids, cls = shuffle(images, labels, ids, cls)  # shuffle the data
+  images, labels, ids, cls = shuffle(images, labels, ids, cls)  
 
   if isinstance(validation_size, float):
     validation_size = int(validation_size * images.shape[0])
