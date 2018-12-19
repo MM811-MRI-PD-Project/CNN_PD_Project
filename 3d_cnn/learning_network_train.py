@@ -22,7 +22,6 @@ tf.Session(config=config)
 #sess = tf.Session(config = config)
 
 
-# Placeholders (MNIST image:28x28pixels=784, label=10)
 x = tf.placeholder(tf.float32, shape=[None, width*height*depth], name='x') # [None, 28*28]
 y_true = tf.placeholder(tf.float32, shape=[None, nLabel],name='y_true')  # [None, 10]
 y_true_cls = tf.argmax(y_true, axis = None, dimension=1)
@@ -34,8 +33,7 @@ keep_prob = tf.placeholder(tf.float32)
 batch_size = 23
 img_size_flat = width*height*depth
 
-## Weight Initialization
-# Create lots of weights and biases & Initialize with a small positive number as we will use ReLU
+
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
     return tf.Variable(initial)
@@ -139,14 +137,14 @@ print(h_pool4.get_shape)
 # Output size shoule be --> 1*1*1
 
 
-## Densely Connected Layer (or fully-connected layer)
-# fully-connected layer with 1024 neurons to process on the entire image
-W_fc1 = weight_variable([1*1*1*128, 100])  # [7*7*64, 1024]
-b_fc1 = bias_variable([100])
-h_pool4_flat = tf.reshape(h_pool4, [-1, 1*1*1*128])  # -> output image: [-1, 7*7*64] = 3136
-print(h_pool4_flat.get_shape)  # (?, 2621440)
+## Densely Connected Layer
 
-# 1st Fully-connected layer: ReLU(h_pool4_flat x weight + bias)
+W_fc1 = weight_variable([1*1*1*128, 100]) 
+b_fc1 = bias_variable([100])
+h_pool4_flat = tf.reshape(h_pool4, [-1, 1*1*1*128]) 
+print(h_pool4_flat.get_shape) 
+
+# 1st Fully-connected layer:
 h_fc1 = tf.nn.relu(tf.matmul(h_pool4_flat, W_fc1) + b_fc1)
 print(h_fc1.get_shape)
 
@@ -170,7 +168,6 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess.run(tf.global_variables_initializer())
 
 
-# Include keep_prob in feed_dict to control dropout rate.
 accuracy_level ={"train_acc":[],"val_acc":[],"train_loss":[],"val_loss":[]}
 csvfile = open('Result.csv','w',newline='')
 result = csv.writer(csvfile,delimiter=',')
@@ -184,8 +181,6 @@ print("- Training-set:\t\t{}".format(len(data.train.labels)))
 print("- Validation-set:\t{}".format(len(data.valid.labels)))
 
 for i in range(420):
-    #     batch = get_data_MRI(sess,'train', 23)
-    #     print(len(batch))
 
     x_batch, y_true_batch, _, cls_batch = data.train.next_batch(batch_size)
     x_valid_batch, y_valid_batch, _, valid_cls_batch = data.valid.next_batch(batch_size)
@@ -197,14 +192,13 @@ for i in range(420):
 
     train_step.run(feed_dict=feed_dict_train)
 
-    # Logging every 100th iteration in the training process.
     if i % 2 ==0: #int(data.train.num_examples/batch_size) == 0:
         val_loss = sess.run(cross_entropy, feed_dict= feed_dict_validate)
         train_loss = sess.run(cross_entropy, feed_dict= feed_dict_train)
 
         train_accuracy = sess.run(accuracy, feed_dict=feed_dict_train)
         val_accuracy = sess.run(accuracy, feed_dict=feed_dict_validate)
-        epoch = i/2 # int(i / int(data.train.num_examples/batch_size))
+        epoch = i/2 
         msg = "Epoch {0} --- Training Accuracy: {1:>6.1%}, Validation Accuracy: {2:>6.1%}, Train Loss: {3:.3f},Validation Loss: {4:.3f}"
         print(msg.format(epoch, train_accuracy,val_accuracy, train_loss, val_loss))
         accuracy_level["train_acc"].append(train_accuracy)
